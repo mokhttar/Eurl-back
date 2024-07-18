@@ -4,11 +4,13 @@ import {
   InternalServerErrorException,
   NotFoundException,
   ConflictException,
+  Redirect,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
+import { Session } from 'inspector';
 
 const scrypt = promisify(_scrypt);
 
@@ -81,7 +83,7 @@ export class UsersService {
       const hashClient = (await scrypt(password, salt, 32)) as Buffer;
       const passwordClient = salt + '.' + hashClient.toString('hex');
       if (dbPassword === passwordClient) {
-        return 'Login in ...';
+        return foundUser;
       } else {
         throw new NotFoundException('Password is wrong please try agine !');
       }

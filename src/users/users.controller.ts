@@ -1,22 +1,33 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  InternalServerErrorException,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { emitWarning } from 'process';
+import cookieSession from 'cookie-session';
+import { Session } from '@nestjs/common';
+//NOTE EVERY TIME THE USER NEED SOMTHING  DONT SEND THE WHOLE USER OBJECT JUST SEND THE  SESSION_ID OF THE USER
 
 @Controller('/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/newUser')
-  addUser(
+  async addUser(
     @Body('firstName') firstName: string,
     @Body('lastName') lastName: string,
     @Body('phoneNumber') phoneNumber: string,
     @Body('wilaya') wilaya: string,
     @Body('email') email: string,
     @Body('password') password: string,
+    @Session() Session: any,
   ) {
-    // Call the service method to add a new user
-    return this.usersService.addNew(
+    const user = await this.usersService.addNew(
       firstName,
       lastName,
       phoneNumber,
@@ -24,10 +35,30 @@ export class UsersController {
       email,
       password,
     );
+    Session.userId = user.id;
+    return user;
   }
   @Post('/logIn')
-  logIn(@Body('email') email: string, @Body('password') password: string) {
-    return this.usersService.Login(email, password);
+  //the user wheen he first logIn he get the his userId and save in a cookie session  so next time we dont send all the data
+  async logIn(
+    @Body('email') email: string,
+    @Body('password') password: string,
+    @Session() session: any,
+  ) {
+    try {
+      const foundUser = await this.usersService.Login(email, password);
+      if (foundUser) {
+        //create a Session for the  userId.
+        session.userID = foundUser.id;
+        return foundUser;
+      } else {
+        throw new NotFoundException(
+          'user not found please check your informations!',
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException('User not  found !!');
+    }
   }
 }
- 
