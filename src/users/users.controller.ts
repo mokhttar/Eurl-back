@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { emitWarning } from 'process';
 
 @Controller('/users')
 export class UsersController {
@@ -24,4 +25,9 @@ export class UsersController {
       password,
     );
   }
+  @Post('/logIn')
+  logIn(@Body('email') email: string, @Body('password') password: string) {
+    return this.usersService.Login(email, password);
+  }
 }
+ 
