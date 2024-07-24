@@ -50,6 +50,8 @@ export class UsersController {
       if (foundUser) {
         //create a Session for the  userId.
         session.userID = foundUser.id;
+    
+        console.log(session.userID);
         return foundUser;
       } else {
         throw new NotFoundException(
@@ -61,4 +63,14 @@ export class UsersController {
       throw new InternalServerErrorException('User not  found !!');
     }
   }
+  //TODO
+  @Get('/checkSession')
+  CheckSession(@Session() session: any) {}
+  
+  
+ @Get() 
+ getAllUsers(){
+    return this.usersService.getUsers()   
+ }
+  
 }

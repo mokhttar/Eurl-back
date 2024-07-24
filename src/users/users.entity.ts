@@ -1,6 +1,6 @@
 import { Entity } from 'typeorm';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
-import { isEmail, IsEmail, MinLength, minLength } from 'class-validator';
+import {  IsEmail, MinLength, minLength } from 'class-validator';
 import { MATCHES } from 'class-validator';
 @Entity()
 export class UsersEntity {
@@ -19,5 +19,7 @@ export class UsersEntity {
   email: string; //tempo
   @Column({ nullable: false, unique: true })
   @MinLength(6)
-  password: string; //tempo
+  password: string; //tempo    
+  @Column({default:false})//TODO
+  isAdmin: boolean;
 }
