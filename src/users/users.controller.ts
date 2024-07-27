@@ -50,8 +50,7 @@ export class UsersController {
       if (foundUser) {
         //create a Session for the  userId.
         session.userID = foundUser.id;
-    
-        console.log(session.userID);
+        // console.log(session.userID);
         return foundUser;
       } else {
         throw new NotFoundException(
@@ -66,11 +65,13 @@ export class UsersController {
   //TODO
   @Get('/checkSession')
   CheckSession(@Session() session: any) {}
-  
-  
- @Get() 
- getAllUsers(){
-    return this.usersService.getUsers()   
- }
-  
+
+  @Get()
+  getAllUsers() {
+    return this.usersService.getUsers();
+  }
+
+  @Post('/order')
+  createOrder() {}
+  //imple;ent logout method
 }

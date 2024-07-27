@@ -6,13 +6,15 @@ import { UsersEntity } from './users/users.entity';
 import { ConfigModule } from '@nestjs/config';
 import { UsersController } from './users/users.controller';
 import { Module } from '@nestjs/common';
+import { ProductsModule } from './products/products.module';
+import { ProductsEntity } from './products/product.entity';
+import { ImagesModule } from './images/images.module';
 @Module({
   imports: [
     UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-
     TypeOrmModule.forRoot({
       type: 'postgres',
       database: process.env.DB_NAME,
@@ -21,8 +23,10 @@ import { Module } from '@nestjs/common';
       host: process.env.DB_HOST,
       port: 5432,
       synchronize: true, //TODO  make it true only in the devolepment phase .
-      entities: [UsersEntity],
+      entities: [UsersEntity, ProductsEntity, ImagesModule],
     }),
+    ProductsModule,
+    ImagesModule,
   ],
   controllers: [],
   providers: [],

@@ -5,11 +5,13 @@ import {
   NotFoundException,
   ConflictException,
   Redirect,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
+import { throwError } from 'rxjs';
 
 const scrypt = promisify(_scrypt);
 
@@ -43,8 +45,7 @@ export class UsersService {
       if (phoneNumberExist) {
         throw new ConflictException('Phone is alredy in use');
       }
-      //TODO hash password before saving it into the data base
-
+      //TODO hash password before saving it into the data base (Done)
       //Generate salt
       const salt = randomBytes(8).toString('hex');
       //hash password
@@ -68,7 +69,7 @@ export class UsersService {
       throw new InternalServerErrorException('Error creating new user');
     }
   }
-  //Method to log in 
+  //Method to log in
   async Login(email: string, password: string) {
     //get the email from the data base
     try {
@@ -93,7 +94,7 @@ export class UsersService {
       throw new InternalServerErrorException('Error during login');
     }
   }
-//Method to  get all users
+  //Method to  get all users
   async getUsers(): Promise<UsersEntity[]> {
     try {
       const users = await this.UsersRepo.find();
@@ -106,5 +107,25 @@ export class UsersService {
       console.log(error);
       throw new InternalServerErrorException('Error  In the server!');
     }
+  }
+
+  //Check if the user is an admin
+  isAdmin(userId: number) {
+    const id = userId;
+    const foundUser = this.UsersRepo.findOne({ where: { id } });
+    if (!foundUser) {
+      // throw new InternalServerErrorException("User Dosn't exist !");
+      return false;
+    }
+    return true;
+  }
+  //Search user by id
+
+  async findbyId(id: number): Promise<UsersEntity> {
+    const user = await this.UsersRepo.findOne({ where: { id } });
+    if (!user) {
+      console.log('user not  found ');
+      throw new NotFoundException('user not found !!');
+    } else return user;
   }
 }

@@ -6,10 +6,9 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller'; // Ensure UsersController is imported
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UsersEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([UsersEntity])],
   providers: [UsersService],
-  controllers: [UsersController], // Make sure UsersController is included here
+  controllers: [UsersController],
+  exports: [UsersService],
 })
 export class UsersModule {}
