@@ -1,14 +1,12 @@
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from './users/users.entity';
 import { ConfigModule } from '@nestjs/config';
-import { UsersController } from './users/users.controller';
 import { Module } from '@nestjs/common';
 import { ProductsModule } from './products/products.module';
 import { ProductsEntity } from './products/product.entity';
 import { ImagesModule } from './images/images.module';
+import { ImagesEntity } from './images/images.entity';
 @Module({
   imports: [
     UsersModule,
@@ -23,7 +21,7 @@ import { ImagesModule } from './images/images.module';
       host: process.env.DB_HOST,
       port: 5432,
       synchronize: true, //TODO  make it true only in the devolepment phase .
-      entities: [UsersEntity, ProductsEntity, ImagesModule],
+      entities: [UsersEntity, ProductsEntity, ImagesEntity],
     }),
     ProductsModule,
     ImagesModule,

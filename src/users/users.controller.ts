@@ -8,15 +8,12 @@ import {
   Post,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { emitWarning } from 'process';
-import cookieSession from 'cookie-session';
 import { Session } from '@nestjs/common';
 //NOTE EVERY TIME THE USER NEED SOMTHING  DONT SEND THE WHOLE USER OBJECT JUST SEND THE  SESSION_ID OF THE USER
-
+//TODO implements logout  method for users
 @Controller('/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
   @Post('/newUser')
   async addUser(
     @Body('firstName') firstName: string,
@@ -65,13 +62,8 @@ export class UsersController {
   //TODO
   @Get('/checkSession')
   CheckSession(@Session() session: any) {}
-
   @Get()
   getAllUsers() {
     return this.usersService.getUsers();
   }
-
-  @Post('/order')
-  createOrder() {}
-  //imple;ent logout method
 }
