@@ -13,8 +13,8 @@ export class ImagesService {
   ) {}
   addImage(
     image: Express.Multer.File,
-    id_product: number,
-    product: ProductsEntity,
+    id_product?: number,
+    product?: ProductsEntity,
   ) {
     const newImage = this.imagesRepo.create({
       fieldname: image.fieldname,

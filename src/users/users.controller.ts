@@ -59,10 +59,10 @@ export class UsersController {
       throw new InternalServerErrorException('User not  found !!');
     }
   }
-  //TODO
+  //TODO implement a guard to check the cookie if it sill a live
   @Get('/checkSession')
   CheckSession(@Session() session: any) {}
-  @Get()
+  @Get('/getAll')
   getAllUsers() {
     return this.usersService.getUsers();
   }

@@ -36,4 +36,11 @@ export class ProductsController {
       user,
     );
   }
+  @Post('/eidtProduct')
+  editProduct() {
+    
+ 
+
+
+  }
 }

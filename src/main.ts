@@ -10,7 +10,7 @@ async function bootstrap() {
   app.use(
     cookieSession({
       keys: ['ENCRYPT-KEY'],
-      maxAge: 1000 * 60 * 60 * 24, // 1 Day
+      maxAge: 1000 * 60 * 10, // 10 minutes
     }),
   );
   app.enableCors();

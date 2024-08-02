@@ -9,8 +9,8 @@ export class ImagesEntity {
   fieldname: string;
   @Column()
   originalname: string;
-//   @Column()
-//   encoding?: string;
+  //@Column()
+  //encoding?: string;
   @Column()
   mimetype: string;
   //TODO add a default image for the product without images

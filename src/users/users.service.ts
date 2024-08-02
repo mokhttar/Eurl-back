@@ -4,24 +4,18 @@ import {
   InternalServerErrorException,
   NotFoundException,
   ConflictException,
-  Redirect,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
-import { throwError } from 'rxjs';
-
 const scrypt = promisify(_scrypt);
-
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     public readonly UsersRepo: Repository<UsersEntity>,
   ) {}
-
   // Method to add new User into the data  base (Sign up with hashing  the password)
   async addNew(
     firstName: string,
@@ -127,5 +121,17 @@ export class UsersService {
       console.log('user not  found ');
       throw new NotFoundException('user not found !!');
     } else return user;
+  }
+  //Add new Admin
+
+  async setAdmin(id: number): Promise<UsersEntity> {
+    const user = await this.findbyId(id);
+    if (!user) {
+      console.log('user donst exist');
+      throw new NotFoundException('user dosnt ezist .');
+    } else {
+      user.isAdmin = true;
+      return this.UsersRepo.save(user);
+    }
   }
 }
