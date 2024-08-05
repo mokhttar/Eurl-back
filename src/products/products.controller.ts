@@ -22,25 +22,24 @@ export class ProductsController {
   getUsers() {
     return this.productService.getAll();
   }
+
   //Create product
   @Post('/newProduct')
   @UseInterceptors(FileInterceptor('files'))
   async addProduct(@Body() product: CreateProductDto, @Request() req: any) {
     const userID: number = req?.session.userID;
-    //TODO ccreate a guard to check if the user is loged in
+    //TODO create a guard to check if the user is loged in
     //search fo the  user entity
     const user = await this.userService.findbyId(userID);
     return this.productService.addProduct(
       product.name,
       product.description,
+      product.InStock,
+      product.price,
+      product.date,
       user,
     );
   }
   @Post('/eidtProduct')
-  editProduct() {
-    
- 
-
-
-  }
+  editProduct() {}
 }

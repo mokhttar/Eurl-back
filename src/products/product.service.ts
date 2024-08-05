@@ -11,10 +11,20 @@ export class ProductsService {
   ) {}
   //Create Product
   // images of  the product has been removed to theire own table in the data base
-  addProduct(name: string, description: string, user: UsersEntity) {
+  addProduct(
+    name: string,
+    description: string,
+    InStock: number,
+    price: number,
+    date: Date,
+    user: UsersEntity,
+  ) {
     const product = this.productrepo.create({
       name: name,
       description: description,
+      InStock,
+      price,
+      date,
       user,
     });
     return this.productrepo.save(product);

@@ -7,6 +7,8 @@ import { ProductsModule } from './products/products.module';
 import { ProductsEntity } from './products/product.entity';
 import { ImagesModule } from './images/images.module';
 import { ImagesEntity } from './images/images.entity';
+import { OrdersModule } from './orders/orders.module';
+import { OrdersEntity } from './orders/orders.entity';
 @Module({
   imports: [
     UsersModule,
@@ -21,10 +23,11 @@ import { ImagesEntity } from './images/images.entity';
       host: process.env.DB_HOST,
       port: 5432,
       synchronize: true, //TODO  make it true only in the devolepment phase .
-      entities: [UsersEntity, ProductsEntity, ImagesEntity],
+      entities: [UsersEntity, ProductsEntity, ImagesEntity, OrdersEntity],
     }),
     ProductsModule,
     ImagesModule,
+    OrdersModule,
   ],
   controllers: [],
   providers: [],

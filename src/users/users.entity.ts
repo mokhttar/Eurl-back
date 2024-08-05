@@ -4,6 +4,7 @@ import { IsEmail, MinLength, minLength } from 'class-validator';
 import { MATCHES } from 'class-validator';
 import { OneToMany } from 'typeorm';
 import { ProductsEntity } from 'src/products/product.entity';
+import { OrdersEntity } from 'src/orders/orders.entity';
 @Entity()
 export class UsersEntity {
   @PrimaryGeneratedColumn()
@@ -26,4 +27,6 @@ export class UsersEntity {
   isAdmin: boolean;
   @OneToMany(() => ProductsEntity, (product) => product.user)
   product: ProductsEntity[];
+  @OneToMany(()=>OrdersEntity , (order)=>order.user) 
+  order:OrdersEntity[];
 }

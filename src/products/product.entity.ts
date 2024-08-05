@@ -6,16 +6,17 @@ import { ImagesEntity } from 'src/images/images.entity';
 export class ProductsEntity {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ nullable: false })
   name: string;
-  @Column()
+  @Column({ nullable: false })
   description: string;
-  //jsonb (text in base64)
-  //CRETE A TABLE FOR ONLY STORYIN IMAGES
-  // @Column('jsonb')
-  // image: { name: string; image: string }[];
-  //TODO ID OF THE ADMIN WHO DID ADD THE IMAGE OF THE PRODUCT (for.. key)
-  //DONE
+  @Column({ nullable: false })
+  InStock: number;
+  @Column({ nullable: false })
+  price: number;
+  @Column()
+  date: Date;
+  //TODO add date ,Qte_availabel,price
   @ManyToOne(() => UsersEntity, (user) => user.product)
   user: UsersEntity;
   @OneToMany(() => ImagesEntity, (image) => image.product)
